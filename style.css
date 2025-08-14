@@ -16,22 +16,26 @@ h1 {
   letter-spacing: 2px;
 }
 #pongCanvas {
-  width: 90vw;
-  max-width: 800px;
-  height: calc(90vw * 0.625); /* 800/500 aspect ratio */
-  max-height: 500px;
-  display: block;
-  margin: 0 auto;
   background: #111;
+  display: block;
   border: 2px solid #fff;
   box-shadow: 0 0 20px #000;
+  margin: 0 auto;
+  width: 800px;  /* Desktop: native resolution */
+  height: 500px;
 }
-@media (max-width: 800px) {
+
+/* On mobile, scale down visually but keep resolution */
+@media (max-width: 900px) {
   #pongCanvas {
-    width: 90vw;
-    height: calc(90vw * 0.625);
+    width: 96vw;
+    height: calc(96vw * 0.625); /* keeps 800/500 aspect ratio */
+    max-width: 400px;
+    max-height: 250px;
   }
 }
+
+
 .game-flex {
   display: flex;
   flex-direction: column;
