@@ -1,8 +1,6 @@
 const canvas = document.getElementById('pongCanvas');
 const ctx = canvas.getContext('2d');
 
-const canvas = document.getElementById('pongCanvas');
-const ctx = canvas.getContext('2d');
 
 // Responsive canvas setup
 function resizeCanvas() {
