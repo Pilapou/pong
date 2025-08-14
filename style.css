@@ -1,22 +1,31 @@
-body {
+#joystick-container {
+  width: 120px;
+  height: 120px;
+  margin: 20px auto 0 auto;
+  position: relative;
+  touch-action: none;
+  user-select: none;
+}
+
+#joystick-base {
+  width: 100px;
+  height: 100px;
   background: #222;
-  color: #fff;
-  text-align: center;
-  font-family: 'Segoe UI', Arial, sans-serif;
-  margin: 0;
-  padding: 0;
+  border-radius: 50%;
+  position: absolute;
+  left: 10px; top: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-h1 {
-  margin-top: 30px;
-  margin-bottom: 10px;
-  letter-spacing: 2px;
-}
-
-#pongCanvas {
-  background: #111;
-  display: block;
-  margin: 0 auto;
-  border: 2px solid #fff;
-  box-shadow: 0 0 20px #000;
+#joystick-knob {
+  width: 50px;
+  height: 50px;
+  background: #0f0;
+  border-radius: 50%;
+  position: absolute;
+  left: 25px; top: 25px;
+  touch-action: none;
+  user-select: none;
 }
