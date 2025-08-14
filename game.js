@@ -16,7 +16,8 @@ let rightPaddleSpeed = 4;
 // Ball
 let ballX = canvas.width / 2;
 let ballY = canvas.height / 2;
-let ballSpeed = 5;
+let baseBallSpeed = 5;
+let ballSpeed = baseBallSpeed;
 let ballAngle = Math.random() * Math.PI / 4 - Math.PI / 8; // Random angle [-22.5°, 22.5°]
 let ballDX = ballSpeed * (Math.random() < 0.5 ? -1 : 1) * Math.cos(ballAngle);
 let ballDY = ballSpeed * Math.sin(ballAngle);
@@ -46,6 +47,7 @@ function drawText(text, x, y, size = 36) {
 function resetBall(direction = 1) {
   ballX = canvas.width / 2;
   ballY = canvas.height / 2;
+  ballSpeed = baseBallSpeed;
   ballAngle = Math.random() * Math.PI / 4 - Math.PI / 8;
   ballDX = ballSpeed * direction * Math.cos(ballAngle);
   ballDY = ballSpeed * Math.sin(ballAngle);
@@ -60,6 +62,15 @@ canvas.addEventListener('mousemove', function(e) {
   if (leftPaddleY < 0) leftPaddleY = 0;
   if (leftPaddleY > canvas.height - paddleHeight) leftPaddleY = canvas.height - paddleHeight;
 });
+
+function increaseBallSpeed() {
+  ballSpeed *= 1.07; // Increase by 7% each rebound
+  // Recalculate ballDX and ballDY to maintain direction but with new speed
+  let angle = Math.atan2(ballDY, ballDX);
+  let sign = ballDX > 0 ? 1 : -1;
+  ballDX = ballSpeed * sign * Math.cos(angle);
+  ballDY = ballSpeed * Math.sin(angle);
+}
 
 function update() {
   // Ball movement
@@ -86,6 +97,7 @@ function update() {
     // Add some angle depending on where it hits the paddle
     let hitPos = (ballY - leftPaddleY - paddleHeight / 2) / (paddleHeight / 2);
     ballDY = ballSpeed * hitPos;
+    increaseBallSpeed();
   }
 
   // Right paddle collision
@@ -98,6 +110,7 @@ function update() {
     ballDX = -ballDX;
     let hitPos = (ballY - rightPaddleY - paddleHeight / 2) / (paddleHeight / 2);
     ballDY = ballSpeed * hitPos;
+    increaseBallSpeed();
   }
 
   // Left/right wall (score)
