@@ -85,28 +85,30 @@ function update() {
     ballDY = -ballDY;
   }
 
-  // Left paddle collision (only if ball is moving left)
+  // LEFT PADDLE COLLISION (only if ball is moving left and just touching/entering paddle)
   if (
     ballDX < 0 &&
     ballX - ballRadius <= paddleWidth &&
+    ballX - ballRadius >= paddleWidth - Math.abs(ballDX) - 2 && // was outside last frame
     ballY > leftPaddleY &&
     ballY < leftPaddleY + paddleHeight
   ) {
-    ballX = paddleWidth + ballRadius; // Move ball just inside
+    ballX = paddleWidth + ballRadius; // Fully outside paddle
     ballDX = -ballDX;
     let hitPos = (ballY - leftPaddleY - paddleHeight / 2) / (paddleHeight / 2);
     ballDY = ballSpeed * hitPos;
     increaseBallSpeed();
   }
 
-  // Right paddle collision (only if ball is moving right)
+  // RIGHT PADDLE COLLISION (only if ball is moving right and just touching/entering paddle)
   if (
     ballDX > 0 &&
     ballX + ballRadius >= canvas.width - paddleWidth &&
+    ballX + ballRadius <= canvas.width - paddleWidth + Math.abs(ballDX) + 2 && // was outside last frame
     ballY > rightPaddleY &&
     ballY < rightPaddleY + paddleHeight
   ) {
-    ballX = canvas.width - paddleWidth - ballRadius; // Move ball just inside
+    ballX = canvas.width - paddleWidth - ballRadius; // Fully outside paddle
     ballDX = -ballDX;
     let hitPos = (ballY - rightPaddleY - paddleHeight / 2) / (paddleHeight / 2);
     ballDY = ballSpeed * hitPos;
