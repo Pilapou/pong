@@ -65,15 +65,20 @@ canvas.addEventListener('mouseleave', function() {
 });
 
 // Joystick controls for mobile
+const joystickContainer = document.getElementById('joystick-container');
 const joystickKnob = document.getElementById('joystick-knob');
 let joystickActive = false;
 let joystickStartY = 0;
 let joystickCurrentY = 0;
 
-if (joystickKnob) {
+if (joystickKnob && joystickContainer) {
   joystickKnob.addEventListener('touchstart', function(e) {
     joystickActive = true;
     joystickStartY = e.touches[0].clientY;
+    joystickContainer.classList.add('active');
+    // Reset knob position and transform
+    joystickKnob.style.top = '40px';
+    joystickKnob.style.transform = 'scale(1.2)';
     e.preventDefault();
   }, {passive: false});
 
@@ -81,24 +86,26 @@ if (joystickKnob) {
     if (!joystickActive || mouseActive) return;
     joystickCurrentY = e.touches[0].clientY;
     let deltaY = joystickCurrentY - joystickStartY;
-    // Increased sensitivity
     leftPaddleY += deltaY * 0.7;
     if (leftPaddleY < 0) leftPaddleY = 0;
     if (leftPaddleY > canvas.height - paddleHeight) leftPaddleY = canvas.height - paddleHeight;
-    // Move knob visually with wider clamp
-    let knobY = Math.max(-50, Math.min(50, deltaY * 0.35));
-    joystickKnob.style.top = (25 + knobY) + 'px';
+    // Move knob visually, clamp within a larger range
+    let knobY = Math.max(-80, Math.min(80, deltaY * 0.35));
+    joystickKnob.style.top = (40 + knobY) + 'px';
+    joystickKnob.style.transform = 'scale(1.2)';
     joystickStartY = joystickCurrentY;
   }, {passive: false});
 
   window.addEventListener('touchend', function(e) {
     joystickActive = false;
-    // Smooth snap back to center (user friendly)
-    joystickKnob.style.transition = 'top 0.15s';
-    joystickKnob.style.top = '25px';
+    joystickContainer.classList.remove('active');
+    // Reset knob position and transform/animation
+    joystickKnob.style.transition = 'top 0.15s, transform 0.2s';
+    joystickKnob.style.top = '40px';
+    joystickKnob.style.transform = 'scale(1)';
     setTimeout(() => {
       joystickKnob.style.transition = '';
-    }, 160);
+    }, 200);
   }, {passive: false});
 }
 
