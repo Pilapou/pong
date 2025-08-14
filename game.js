@@ -22,6 +22,8 @@ let ballAngle = Math.random() * Math.PI / 4 - Math.PI / 8;
 let ballDX = ballSpeed * (Math.random() < 0.5 ? -1 : 1) * Math.cos(ballAngle);
 let ballDY = ballSpeed * Math.sin(ballAngle);
 
+let prevBallX = ballX;
+
 // Score
 let leftScore = 0;
 let rightScore = 0;
@@ -72,6 +74,8 @@ function increaseBallSpeed() {
 }
 
 function update() {
+  prevBallX = ballX;
+
   // Ball movement
   ballX += ballDX;
   ballY += ballDY;
@@ -85,30 +89,30 @@ function update() {
     ballDY = -ballDY;
   }
 
-  // LEFT PADDLE COLLISION (only if ball is moving left and just touching/entering paddle)
+  // Left paddle collision (only if ball is moving left and crosses paddle boundary)
   if (
     ballDX < 0 &&
+    prevBallX - ballRadius > paddleWidth &&
     ballX - ballRadius <= paddleWidth &&
-    ballX - ballRadius >= paddleWidth - Math.abs(ballDX) - 2 && // was outside last frame
     ballY > leftPaddleY &&
     ballY < leftPaddleY + paddleHeight
   ) {
-    ballX = paddleWidth + ballRadius; // Fully outside paddle
+    ballX = paddleWidth + ballRadius + 1; // Place ball just outside paddle
     ballDX = -ballDX;
     let hitPos = (ballY - leftPaddleY - paddleHeight / 2) / (paddleHeight / 2);
     ballDY = ballSpeed * hitPos;
     increaseBallSpeed();
   }
 
-  // RIGHT PADDLE COLLISION (only if ball is moving right and just touching/entering paddle)
+  // Right paddle collision (only if ball is moving right and crosses paddle boundary)
   if (
     ballDX > 0 &&
+    prevBallX + ballRadius < canvas.width - paddleWidth &&
     ballX + ballRadius >= canvas.width - paddleWidth &&
-    ballX + ballRadius <= canvas.width - paddleWidth + Math.abs(ballDX) + 2 && // was outside last frame
     ballY > rightPaddleY &&
     ballY < rightPaddleY + paddleHeight
   ) {
-    ballX = canvas.width - paddleWidth - ballRadius; // Fully outside paddle
+    ballX = canvas.width - paddleWidth - ballRadius - 1; // Place ball just outside paddle
     ballDX = -ballDX;
     let hitPos = (ballY - rightPaddleY - paddleHeight / 2) / (paddleHeight / 2);
     ballDY = ballSpeed * hitPos;
