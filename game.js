@@ -24,7 +24,7 @@ let leftPaddleY = canvas.height / 2 - paddleHeight / 2;
 
 // Right paddle (AI)
 let rightPaddleY = canvas.height / 2 - paddleHeight / 2;
-let rightPaddleMaxSpeed = 7;
+let rightPaddleMaxSpeed = 5;
 
 // Ball
 let ballX = canvas.width / 2;
