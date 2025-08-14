@@ -81,19 +81,24 @@ if (joystickKnob) {
     if (!joystickActive || mouseActive) return;
     joystickCurrentY = e.touches[0].clientY;
     let deltaY = joystickCurrentY - joystickStartY;
-    // Move paddle proportional to touch movement, clamp within canvas
-    leftPaddleY += deltaY * 0.3;
+    // Increased sensitivity
+    leftPaddleY += deltaY * 0.7;
     if (leftPaddleY < 0) leftPaddleY = 0;
     if (leftPaddleY > canvas.height - paddleHeight) leftPaddleY = canvas.height - paddleHeight;
-    // Move knob visually
-    let knobY = Math.max(-35, Math.min(35, deltaY * 0.2));
+    // Move knob visually with wider clamp
+    let knobY = Math.max(-50, Math.min(50, deltaY * 0.35));
     joystickKnob.style.top = (25 + knobY) + 'px';
     joystickStartY = joystickCurrentY;
   }, {passive: false});
 
   window.addEventListener('touchend', function(e) {
     joystickActive = false;
+    // Smooth snap back to center (user friendly)
+    joystickKnob.style.transition = 'top 0.15s';
     joystickKnob.style.top = '25px';
+    setTimeout(() => {
+      joystickKnob.style.transition = '';
+    }, 160);
   }, {passive: false});
 }
 
