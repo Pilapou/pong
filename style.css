@@ -5,7 +5,6 @@ body {
   font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
   padding: 0;
-  position: relative;
 }
 
 h1 {
@@ -14,20 +13,12 @@ h1 {
   letter-spacing: 2px;
 }
 
-/* Wrapper for centering canvas and joystick */
-.game-wrapper {
+.game-flex {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
   width: 100vw;
-}
-
-#pongCanvas {
-  background: #111;
-  display: block;
-  border: 2px solid #fff;
-  box-shadow: 0 0 20px #000;
-  margin: 0 auto;
 }
 
 /* Hide joystick by default */
@@ -35,20 +26,19 @@ h1 {
   display: none;
 }
 
-/* Show joystick and center it on mobile and tablet (screen width ≤ 900px) */
+/* Mobile & tablet centering */
 @media (max-width: 900px) {
   #joystick-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center;
+    margin-top: 32px;
     width: 180px;
     height: 180px;
-    margin-top: 40px;
-    /* Remove position/static, let flexbox do centering */
-    z-index: 10;
     touch-action: none;
     user-select: none;
+    z-index: 10;
     transition: width 0.4s cubic-bezier(.22,1,.36,1), height 0.4s cubic-bezier(.22,1,.36,1);
   }
 
@@ -63,11 +53,11 @@ h1 {
     background: radial-gradient(circle at 50% 50%, #444 70%, #222 100%);
     border-radius: 50%;
     position: relative;
-    margin: 0 auto;
+    box-shadow: 0 0 40px 0 rgba(0,255,128,0.15), 0 0 0 10px #222 inset;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 40px 0 rgba(0,255,128,0.15), 0 0 0 10px #222 inset;
+    margin: 0 auto;
     transition: box-shadow 0.4s cubic-bezier(.22,1,.36,1), background 0.4s;
   }
 
