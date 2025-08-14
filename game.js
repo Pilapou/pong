@@ -65,7 +65,6 @@ canvas.addEventListener('mousemove', function(e) {
 
 function increaseBallSpeed() {
   ballSpeed *= 1.07; // Increase by 7% each rebound
-  // Recalculate ballDX and ballDY to maintain direction but with new speed
   let angle = Math.atan2(ballDY, ballDX);
   let sign = ballDX > 0 ? 1 : -1;
   ballDX = ballSpeed * sign * Math.cos(angle);
@@ -93,7 +92,7 @@ function update() {
     ballY > leftPaddleY &&
     ballY < leftPaddleY + paddleHeight
   ) {
-    ballX = paddleWidth + ballRadius; // Move ball just outside the paddle after collision
+    ballX = paddleWidth + ballRadius; // Move ball just inside
     ballDX = -ballDX;
     let hitPos = (ballY - leftPaddleY - paddleHeight / 2) / (paddleHeight / 2);
     ballDY = ballSpeed * hitPos;
@@ -107,18 +106,20 @@ function update() {
     ballY > rightPaddleY &&
     ballY < rightPaddleY + paddleHeight
   ) {
-    ballX = canvas.width - paddleWidth - ballRadius; // Move ball just outside the paddle after collision
+    ballX = canvas.width - paddleWidth - ballRadius; // Move ball just inside
     ballDX = -ballDX;
     let hitPos = (ballY - rightPaddleY - paddleHeight / 2) / (paddleHeight / 2);
     ballDY = ballSpeed * hitPos;
     increaseBallSpeed();
   }
 
-  // Left/right wall (score) - only if ball fully passes the wall
+  // Left wall scoring (ball fully out)
   if (ballX < -ballRadius) {
     rightScore++;
     resetBall(1);
-  } else if (ballX > canvas.width + ballRadius) {
+  }
+  // Right wall scoring (ball fully out)
+  if (ballX > canvas.width + ballRadius) {
     leftScore++;
     resetBall(-1);
   }
