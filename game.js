@@ -112,7 +112,7 @@ function update() {
     ballY > rightPaddleY &&
     ballY < rightPaddleY + paddleHeight
   ) {
-    ballX = canvas.width - paddleWidth - ballRadius - Math.abs(ballDX); // Place ball further outside paddle
+    ballX = canvas.width - paddleWidth - ballRadius - 1; // Place ball just outside paddle
     ballDX = -ballDX;
     let hitPos = (ballY - rightPaddleY - paddleHeight / 2) / (paddleHeight / 2);
     ballDY = ballSpeed * hitPos;
