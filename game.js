@@ -11,14 +11,15 @@ let leftPaddleY = canvas.height / 2 - paddleHeight / 2;
 
 // Right paddle (AI)
 let rightPaddleY = canvas.height / 2 - paddleHeight / 2;
-let rightPaddleSpeed = 4;
+let rightPaddleMaxSpeed = 6;
+let rightPaddleMinSpeed = 2;
 
 // Ball
 let ballX = canvas.width / 2;
 let ballY = canvas.height / 2;
 let baseBallSpeed = 5;
 let ballSpeed = baseBallSpeed;
-let ballAngle = Math.random() * Math.PI / 4 - Math.PI / 8; // Random angle [-22.5°, 22.5°]
+let ballAngle = Math.random() * Math.PI / 4 - Math.PI / 8;
 let ballDX = ballSpeed * (Math.random() < 0.5 ? -1 : 1) * Math.cos(ballAngle);
 let ballDY = ballSpeed * Math.sin(ballAngle);
 
@@ -94,7 +95,6 @@ function update() {
   ) {
     ballX = paddleWidth + ballRadius;
     ballDX = -ballDX;
-    // Add some angle depending on where it hits the paddle
     let hitPos = (ballY - leftPaddleY - paddleHeight / 2) / (paddleHeight / 2);
     ballDY = ballSpeed * hitPos;
     increaseBallSpeed();
@@ -122,14 +122,16 @@ function update() {
     resetBall(-1);
   }
 
-  // AI paddle movement
+  // Improved AI paddle movement
   let targetY = ballY - paddleHeight / 2;
-  if (rightPaddleY < targetY) {
-    rightPaddleY += rightPaddleSpeed;
-    if (rightPaddleY > targetY) rightPaddleY = targetY;
-  } else if (rightPaddleY > targetY) {
-    rightPaddleY -= rightPaddleSpeed;
-    if (rightPaddleY < targetY) rightPaddleY = targetY;
+  let diff = targetY - rightPaddleY;
+  let aiSpeed = Math.abs(diff) > rightPaddleMaxSpeed ? rightPaddleMaxSpeed : rightPaddleMinSpeed;
+  if (Math.abs(diff) < aiSpeed) {
+    rightPaddleY = targetY; // Snap if close
+  } else if (diff > 0) {
+    rightPaddleY += aiSpeed;
+  } else if (diff < 0) {
+    rightPaddleY -= aiSpeed;
   }
   // Clamp AI paddle
   if (rightPaddleY < 0) rightPaddleY = 0;
