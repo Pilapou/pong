@@ -40,6 +40,52 @@ let prevBallX = ballX;
 // Score
 let leftScore = 0;
 let rightScore = 0;
+let winner = null;
+let animationTime = 0;
+
+function checkWin() {
+  if (leftScore >= 12) {
+    winner = 'Left Player';
+    animationTime = 150; // number of frames for animation
+  } else if (rightScore >= 12) {
+    winner = 'Right Player';
+    animationTime = 150;
+  }
+}
+
+function drawWinAnimation() {
+  if (!winner || animationTime <= 0) return;
+  ctx.save();
+
+  // Colorful background flash
+  ctx.globalAlpha = 0.3;
+  ctx.fillStyle = `hsl(${Math.random()*360},100%,50%)`;
+  ctx.fillRect(0, 0, canvas.width, canvas.height);
+  ctx.globalAlpha = 1;
+
+  // Bouncing winning text
+  let bounce = Math.sin(animationTime/8) * 20;
+  ctx.font = "bold 60px Comic Sans MS, Arial";
+  ctx.fillStyle = "#fff";
+  ctx.textAlign = "center";
+  ctx.fillText(`${winner} Wins! 🎉`, canvas.width/2, canvas.height/2 + bounce);
+
+  // Simple confetti (random circles)
+  for (let i=0; i<30; i++) {
+    ctx.beginPath();
+    ctx.arc(
+      Math.random()*canvas.width,
+      Math.random()*canvas.height,
+      Math.random()*8+2,
+      0, 2*Math.PI
+    );
+    ctx.fillStyle = `hsl(${Math.random()*360},100%,50%)`;
+    ctx.fill();
+  }
+
+  ctx.restore();
+  animationTime--;
+}
 
 function drawRect(x, y, w, h, color) {
   ctx.fillStyle = color;
@@ -226,6 +272,14 @@ function gameLoop() {
   update();
   draw();
   requestAnimationFrame(gameLoop);
+  checkWin();
+  if (winner) {
+    drawWinAnimation();
+    if (animationTime <= 0) {
+      // Optionally, reset game or show restart button
+    }
+    return; // Stop game updates during animation if desired
+  }
 }
 
 resetBall();
