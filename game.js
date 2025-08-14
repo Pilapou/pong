@@ -92,8 +92,8 @@ function update() {
     ballY > leftPaddleY &&
     ballY < leftPaddleY + paddleHeight
   ) {
-    ballX = paddleWidth + ballRadius; // Move ball just inside paddle after collision
-    ballDX = -ballDX;
+    ballX = paddleWidth + ballRadius + 1; // Move ball just outside paddle after collision
+    ballDX = Math.abs(ballDX); // Make sure ball goes right
     let hitPos = (ballY - leftPaddleY - paddleHeight / 2) / (paddleHeight / 2);
     ballDY = ballSpeed * hitPos;
     increaseBallSpeed();
@@ -105,8 +105,8 @@ function update() {
     ballY > rightPaddleY &&
     ballY < rightPaddleY + paddleHeight
   ) {
-    ballX = canvas.width - paddleWidth - ballRadius; // Move ball just inside paddle after collision
-    ballDX = -ballDX;
+    ballX = canvas.width - paddleWidth - ballRadius - 1; // Move ball just outside paddle after collision
+    ballDX = -Math.abs(ballDX); // Make sure ball goes left
     let hitPos = (ballY - rightPaddleY - paddleHeight / 2) / (paddleHeight / 2);
     ballDY = ballSpeed * hitPos;
     increaseBallSpeed();
@@ -121,7 +121,7 @@ function update() {
     resetBall(-1);
   }
 
-  // Improved AI paddle movement
+  // AI paddle movement
   let targetY = ballY - paddleHeight / 2;
   let diff = targetY - rightPaddleY;
   let move = Math.sign(diff) * Math.min(Math.abs(diff), rightPaddleMaxSpeed);
