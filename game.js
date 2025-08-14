@@ -49,7 +49,8 @@ function drawText(text, x, y, size = 36) {
 function resetBall(direction = 1) {
   ballX = canvas.width / 2;
   ballY = canvas.height / 2;
-  ballSpeed = baseBallSpeed;
+  // Set speed to the maximum between current speed divided by 2 and base speed
+  ballSpeed = Math.max(ballSpeed / 2, baseBallSpeed);
   ballAngle = Math.random() * Math.PI / 4 - Math.PI / 8;
   ballDX = ballSpeed * direction * Math.cos(ballAngle);
   ballDY = ballSpeed * Math.sin(ballAngle);
