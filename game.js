@@ -66,7 +66,7 @@ function drawWinAnimation() {
   ctx.font = "bold 60px Comic Sans MS, Arial";
   ctx.fillStyle = "#fff";
   ctx.textAlign = "center";
-  ctx.fillText(`${winner} Wins! 🎉`, canvas.width/2, canvas.height/2 + bounce);
+  ctx.fillText(`${winner} 🎉`, canvas.width/2, canvas.height/2 + bounce);
 
   // Simple confetti (random circles)
   for (let i=0; i<30; i++) {
