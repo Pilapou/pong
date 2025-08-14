@@ -1,6 +1,23 @@
 const canvas = document.getElementById('pongCanvas');
 const ctx = canvas.getContext('2d');
 
+const canvas = document.getElementById('pongCanvas');
+const ctx = canvas.getContext('2d');
+
+// Responsive canvas setup
+function resizeCanvas() {
+  // Match CSS display size
+  const width = Math.min(window.innerWidth * 0.9, 800);
+  const height = Math.min(width * (5/8), 500); // 800x500 aspect ratio
+  canvas.style.width = width + 'px';
+  canvas.style.height = height + 'px';
+  canvas.width = width;
+  canvas.height = height;
+  // You may need to update paddle/ball positions here if they depend on canvas size
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
 // Game settings
 const paddleWidth = 12;
 const paddleHeight = 80;
