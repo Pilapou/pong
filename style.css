@@ -25,14 +25,19 @@ h1 {
   display: none;
 }
 
-/* Show joystick on mobile (screen width ≤ 600px) */
+/* Show joystick on mobile and tablet (screen width ≤ 900px) */
 @media (max-width: 900px) {
   #joystick-container {
     display: block;
     width: 120px;
     height: 120px;
-    margin: 20px auto 0 auto;
-    position: relative;
+    /* Position lower and centered below the canvas */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: calc(100% + 40px); /* 40px below the canvas */
+    /* Ensure it overlays nicely */
+    z-index: 10;
     touch-action: none;
     user-select: none;
   }
@@ -42,8 +47,8 @@ h1 {
     height: 100px;
     background: #222;
     border-radius: 50%;
-    position: absolute;
-    left: 10px; top: 10px;
+    position: relative;
+    margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -59,4 +64,9 @@ h1 {
     touch-action: none;
     user-select: none;
   }
+}
+
+/* Positioning context for joystick: ensure body is relative so absolute positioning works */
+body {
+  position: relative;
 }
