@@ -46,17 +46,11 @@ function drawText(text, x, y, size = 36) {
   ctx.fillText(text, x, y);
 }
 
-function resetBall(direction = 1) {
-  ballX = canvas.width / 2;
-  ballY = canvas.height / 2;
-  // Set speed to the maximum between current speed divided by 2 and base speed
-  ballSpeed = Math.max(ballSpeed / 2, baseBallSpeed);
-  ballAngle = Math.random() * Math.PI / 4 - Math.PI / 8;
-  ballDX = ballSpeed * direction * Math.cos(ballAngle);
-  ballDY = ballSpeed * Math.sin(ballAngle);
-}
+// Track mouse activity
+let mouseActive = false;
 
 canvas.addEventListener('mousemove', function(e) {
+  mouseActive = true;
   const rect = canvas.getBoundingClientRect();
   let mouseY = e.clientY - rect.top;
   leftPaddleY = mouseY - paddleHeight / 2;
@@ -66,8 +60,11 @@ canvas.addEventListener('mousemove', function(e) {
   if (leftPaddleY > canvas.height - paddleHeight) leftPaddleY = canvas.height - paddleHeight;
 });
 
+canvas.addEventListener('mouseleave', function() {
+  mouseActive = false;
+});
+
 // Joystick controls for mobile
-const joystickBase = document.getElementById('joystick-base');
 const joystickKnob = document.getElementById('joystick-knob');
 let joystickActive = false;
 let joystickStartY = 0;
@@ -81,7 +78,7 @@ if (joystickKnob) {
   }, {passive: false});
 
   window.addEventListener('touchmove', function(e) {
-    if (!joystickActive) return;
+    if (!joystickActive || mouseActive) return;
     joystickCurrentY = e.touches[0].clientY;
     let deltaY = joystickCurrentY - joystickStartY;
     // Move paddle proportional to touch movement, clamp within canvas
@@ -98,6 +95,17 @@ if (joystickKnob) {
     joystickActive = false;
     joystickKnob.style.top = '25px';
   }, {passive: false});
+}
+
+// Update resetBall as requested
+function resetBall(direction = 1) {
+  ballX = canvas.width / 2;
+  ballY = canvas.height / 2;
+  // Set speed to the maximum between current speed divided by 2 and base speed
+  ballSpeed = Math.max(ballSpeed / 2, baseBallSpeed);
+  ballAngle = Math.random() * Math.PI / 4 - Math.PI / 8;
+  ballDX = ballSpeed * direction * Math.cos(ballAngle);
+  ballDY = ballSpeed * Math.sin(ballAngle);
 }
 
 function increaseBallSpeed() {
