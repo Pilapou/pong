@@ -92,7 +92,7 @@ function update() {
     ballY > leftPaddleY &&
     ballY < leftPaddleY + paddleHeight
   ) {
-    ballX = paddleWidth + ballRadius;
+    ballX = paddleWidth + ballRadius; // Move ball just inside paddle after collision
     ballDX = -ballDX;
     let hitPos = (ballY - leftPaddleY - paddleHeight / 2) / (paddleHeight / 2);
     ballDY = ballSpeed * hitPos;
@@ -105,51 +105,39 @@ function update() {
     ballY > rightPaddleY &&
     ballY < rightPaddleY + paddleHeight
   ) {
-    ballX = canvas.width - paddleWidth - ballRadius;
+    ballX = canvas.width - paddleWidth - ballRadius; // Move ball just inside paddle after collision
     ballDX = -ballDX;
     let hitPos = (ballY - rightPaddleY - paddleHeight / 2) / (paddleHeight / 2);
     ballDY = ballSpeed * hitPos;
     increaseBallSpeed();
   }
 
-  // Left/right wall (score)
-  if (ballX < 0) {
+  // Left/right wall (score) - only if ball fully passes the wall
+  if (ballX < -ballRadius) {
     rightScore++;
     resetBall(1);
-  } else if (ballX > canvas.width) {
+  } else if (ballX > canvas.width + ballRadius) {
     leftScore++;
     resetBall(-1);
   }
 
-  // Improved AI paddle movement (smooth and always moving)
-  // Target is ball center minus half paddle height
+  // Improved AI paddle movement
   let targetY = ballY - paddleHeight / 2;
   let diff = targetY - rightPaddleY;
-  // Compute move step, capped at max speed
   let move = Math.sign(diff) * Math.min(Math.abs(diff), rightPaddleMaxSpeed);
   rightPaddleY += move;
-  // Clamp
   if (rightPaddleY < 0) rightPaddleY = 0;
   if (rightPaddleY > canvas.height - paddleHeight) rightPaddleY = canvas.height - paddleHeight;
 }
 
 function draw() {
-  // Clear
   ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-  // Middle line
   for (let y = 0; y < canvas.height; y += 30) {
     drawRect(canvas.width / 2 - 2, y, 4, 20, "#555");
   }
-
-  // Paddles
   drawRect(0, leftPaddleY, paddleWidth, paddleHeight, "#0f0");
   drawRect(canvas.width - paddleWidth, rightPaddleY, paddleWidth, paddleHeight, "#f00");
-
-  // Ball
   drawCircle(ballX, ballY, ballRadius, "#fff");
-
-  // Score
   drawText(leftScore, canvas.width / 4, 40);
   drawText(rightScore, (canvas.width * 3) / 4, 40);
 }
