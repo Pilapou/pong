@@ -102,8 +102,11 @@ if (joystickKnob) {
   }, {passive: false});
 }
 
-// Update resetBall as requested
-function resetBall(direction = 1) {
+function resetBall(direction) {
+  // Randomize direction if not specified
+  if (typeof direction === "undefined") {
+    direction = Math.random() < 0.5 ? -1 : 1;
+  }
   ballX = canvas.width / 2;
   ballY = canvas.height / 2;
   // Set speed to the maximum between current speed divided by 2 and base speed
@@ -112,6 +115,7 @@ function resetBall(direction = 1) {
   ballDX = ballSpeed * direction * Math.cos(ballAngle);
   ballDY = ballSpeed * Math.sin(ballAngle);
 }
+
 
 function increaseBallSpeed() {
   ballSpeed *= 1.07; // Increase by 7% each rebound
