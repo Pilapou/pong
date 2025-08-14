@@ -23,7 +23,7 @@ let leftPaddleY = canvas.height / 2 - paddleHeight / 2;
 
 // Right paddle (AI)
 let rightPaddleY = canvas.height / 2 - paddleHeight / 2;
-let rightPaddleMaxSpeed = 7*canvas.heigh/500;
+let rightPaddleMaxSpeed = 7*canvas.height/500;
 
 // Ball
 let ballX = canvas.width / 2;
@@ -271,8 +271,8 @@ function gameLoop() {
   requestAnimationFrame(gameLoop);
   checkWin();
   if (winner) {
+    ballSpeed =0;
     drawWinAnimation();
-    ballSpeed =0
     if (animationTime <= 0) {
       // Optionally, reset game or show restart button
     }
