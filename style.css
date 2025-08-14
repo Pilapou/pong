@@ -6,6 +6,9 @@ body {
   margin: 0;
   padding: 0;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 h1 {
@@ -29,14 +32,14 @@ h1 {
 /* Show joystick on mobile and tablet (screen width ≤ 900px) */
 @media (max-width: 900px) {
   #joystick-container {
-    display: block;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     width: 180px;
     height: 180px;
-    /* Position lower and centered below the canvas */
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    top: calc(100% + 40px); /* 40px below the canvas */
+    margin-top: 40px;
+    position: static;
     z-index: 10;
     touch-action: none;
     user-select: none;
@@ -80,8 +83,10 @@ h1 {
     transition:
       box-shadow 0.4s cubic-bezier(.22,1,.36,1),
       background 0.4s cubic-bezier(.22,1,.36,1),
-      transform 0.2s cubic-bezier(.22,1,.36,1);
-    will-change: transform;
+      transform 0.2s cubic-bezier(.22,1,.36,1),
+      top 0.15s cubic-bezier(.22,1,.36,1);
+    will-change: transform, top;
+    transform: scale(1);
   }
 
   #joystick-container.active #joystick-knob {
