@@ -98,7 +98,7 @@ function update() {
     ballY < leftPaddleY + paddleHeight
   ) {
     ballX = paddleWidth + ballRadius + 1; // Place ball just outside paddle
-    ballDX = -ballDX;
+    ballDX = Math.abs(ballDX); // Always move right
     let hitPos = (ballY - leftPaddleY - paddleHeight / 2) / (paddleHeight / 2);
     ballDY = ballSpeed * hitPos;
     increaseBallSpeed();
@@ -113,7 +113,7 @@ function update() {
     ballY < rightPaddleY + paddleHeight
   ) {
     ballX = canvas.width - paddleWidth - ballRadius - 1; // Place ball just outside paddle
-    ballDX = -ballDX;
+    ballDX = -Math.abs(ballDX); // Always move left
     let hitPos = (ballY - rightPaddleY - paddleHeight / 2) / (paddleHeight / 2);
     ballDY = ballSpeed * hitPos;
     increaseBallSpeed();
