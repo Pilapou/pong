@@ -6,9 +6,6 @@ body {
   margin: 0;
   padding: 0;
   position: relative;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
 }
 
 h1 {
@@ -16,12 +13,21 @@ h1 {
   margin-bottom: 10px;
   letter-spacing: 2px;
 }
+
+/* Wrapper for centering canvas and joystick */
+.game-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100vw;
+}
+
 #pongCanvas {
   background: #111;
   display: block;
-  margin: 0 auto;
   border: 2px solid #fff;
   box-shadow: 0 0 20px #000;
+  margin: 0 auto;
 }
 
 /* Hide joystick by default */
@@ -29,7 +35,7 @@ h1 {
   display: none;
 }
 
-/* Show joystick on mobile and tablet (screen width ≤ 900px) */
+/* Show joystick and center it on mobile and tablet (screen width ≤ 900px) */
 @media (max-width: 900px) {
   #joystick-container {
     display: flex;
@@ -39,7 +45,7 @@ h1 {
     width: 180px;
     height: 180px;
     margin-top: 40px;
-    position: static;
+    /* Remove position/static, let flexbox do centering */
     z-index: 10;
     touch-action: none;
     user-select: none;
