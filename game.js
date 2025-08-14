@@ -271,7 +271,8 @@ function gameLoop() {
   requestAnimationFrame(gameLoop);
   checkWin();
   if (winner) {
-    ballSpeed =0;
+    resetBall(0);
+    
     drawWinAnimation();
     if (animationTime <= 0) {
       // Optionally, reset game or show restart button
