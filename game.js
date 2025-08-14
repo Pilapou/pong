@@ -65,6 +65,40 @@ canvas.addEventListener('mousemove', function(e) {
   if (leftPaddleY > canvas.height - paddleHeight) leftPaddleY = canvas.height - paddleHeight;
 });
 
+// Joystick controls for mobile
+const joystickBase = document.getElementById('joystick-base');
+const joystickKnob = document.getElementById('joystick-knob');
+let joystickActive = false;
+let joystickStartY = 0;
+let joystickCurrentY = 0;
+
+if (joystickKnob) {
+  joystickKnob.addEventListener('touchstart', function(e) {
+    joystickActive = true;
+    joystickStartY = e.touches[0].clientY;
+    e.preventDefault();
+  }, {passive: false});
+
+  window.addEventListener('touchmove', function(e) {
+    if (!joystickActive) return;
+    joystickCurrentY = e.touches[0].clientY;
+    let deltaY = joystickCurrentY - joystickStartY;
+    // Move paddle proportional to touch movement, clamp within canvas
+    leftPaddleY += deltaY * 0.3;
+    if (leftPaddleY < 0) leftPaddleY = 0;
+    if (leftPaddleY > canvas.height - paddleHeight) leftPaddleY = canvas.height - paddleHeight;
+    // Move knob visually
+    let knobY = Math.max(-35, Math.min(35, deltaY * 0.2));
+    joystickKnob.style.top = (25 + knobY) + 'px';
+    joystickStartY = joystickCurrentY;
+  }, {passive: false});
+
+  window.addEventListener('touchend', function(e) {
+    joystickActive = false;
+    joystickKnob.style.top = '25px';
+  }, {passive: false});
+}
+
 function increaseBallSpeed() {
   ballSpeed *= 1.07; // Increase by 7% each rebound
   let angle = Math.atan2(ballDY, ballDX);
