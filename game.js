@@ -6,6 +6,7 @@ const ctx = canvas.getContext('2d');
 function resizeCanvas() {
   // Match CSS display size
   const width = Math.min(window.innerWidth * 0.9, 800);
+  width=Math.max(width,500);
   const height = Math.min(width * (5/8), 500); // 800x500 aspect ratio
   canvas.style.width = width + 'px';
   canvas.style.height = height + 'px';
