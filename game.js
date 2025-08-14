@@ -15,9 +15,9 @@ window.addEventListener('resize', resizeCanvas);
 resizeCanvas();
 
 // Game settings
-const paddleWidth = 12;
-const paddleHeight = 80;
-const ballRadius = 10;
+const paddleWidth = 12*canvas.width/800;
+const paddleHeight = 80*canvas.height/500;
+const ballRadius = Math.max(4,10*canvas.width/800);
 
 // Left paddle (player)
 let leftPaddleY = canvas.height / 2 - paddleHeight / 2;
@@ -29,7 +29,7 @@ let rightPaddleMaxSpeed = 7;
 // Ball
 let ballX = canvas.width / 2;
 let ballY = canvas.height / 2;
-let baseBallSpeed = 5;
+let baseBallSpeed = 5*canvas.width/800;
 let ballSpeed = baseBallSpeed;
 let ballAngle = Math.random() * Math.PI / 4 - Math.PI / 8;
 let ballDX = ballSpeed * (Math.random() < 0.5 ? -1 : 1) * Math.cos(ballAngle);
