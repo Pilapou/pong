@@ -5,6 +5,7 @@ body {
   font-family: 'Segoe UI', Arial, sans-serif;
   margin: 0;
   padding: 0;
+  position: relative;
 }
 
 h1 {
@@ -29,44 +30,63 @@ h1 {
 @media (max-width: 900px) {
   #joystick-container {
     display: block;
-    width: 120px;
-    height: 120px;
+    width: 180px;
+    height: 180px;
     /* Position lower and centered below the canvas */
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
     top: calc(100% + 40px); /* 40px below the canvas */
-    /* Ensure it overlays nicely */
     z-index: 10;
     touch-action: none;
     user-select: none;
+    transition: width 0.4s cubic-bezier(.22,1,.36,1), height 0.4s cubic-bezier(.22,1,.36,1);
+  }
+
+  #joystick-container.active {
+    width: 240px;
+    height: 240px;
   }
 
   #joystick-base {
-    width: 100px;
-    height: 100px;
-    background: #222;
+    width: 160px;
+    height: 160px;
+    background: radial-gradient(circle at 50% 50%, #444 70%, #222 100%);
     border-radius: 50%;
     position: relative;
     margin: 0 auto;
     display: flex;
     align-items: center;
     justify-content: center;
+    box-shadow: 0 0 40px 0 rgba(0,255,128,0.15), 0 0 0 10px #222 inset;
+    transition: box-shadow 0.4s cubic-bezier(.22,1,.36,1), background 0.4s;
+  }
+
+  #joystick-container.active #joystick-base {
+    box-shadow: 0 0 80px 8px rgba(0,255,128,0.25), 0 0 0 14px #222 inset;
+    background: radial-gradient(circle at 50% 50%, #0f0 70%, #444 100%);
   }
 
   #joystick-knob {
-    width: 50px;
-    height: 50px;
-    background: #0f0;
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #0f0 60%, #fff 100%);
     border-radius: 50%;
     position: absolute;
-    left: 25px; top: 25px;
+    left: 40px; top: 40px;
     touch-action: none;
     user-select: none;
+    box-shadow: 0 6px 18px 0 rgba(0,255,128,0.3);
+    transition:
+      box-shadow 0.4s cubic-bezier(.22,1,.36,1),
+      background 0.4s cubic-bezier(.22,1,.36,1),
+      transform 0.2s cubic-bezier(.22,1,.36,1);
+    will-change: transform;
   }
-}
 
-/* Positioning context for joystick: ensure body is relative so absolute positioning works */
-body {
-  position: relative;
+  #joystick-container.active #joystick-knob {
+    background: linear-gradient(135deg, #fff 40%, #0f0 100%);
+    box-shadow: 0 12px 40px 0 rgba(0,255,128,0.4);
+    transform: scale(1.2);
+  }
 }
