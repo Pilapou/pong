@@ -68,8 +68,7 @@ canvas.addEventListener('mousemove', function(e) {
 function increaseBallSpeed() {
   ballSpeed *= 1.07; // Increase by 7% each rebound
   let angle = Math.atan2(ballDY, ballDX);
-  let sign = ballDX > 0 ? 1 : -1;
-  ballDX = ballSpeed * sign * Math.cos(angle);
+  ballDX = ballSpeed * Math.cos(angle);
   ballDY = ballSpeed * Math.sin(angle);
 }
 
