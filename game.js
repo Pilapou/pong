@@ -41,15 +41,13 @@ let prevBallX = ballX;
 let leftScore = 0;
 let rightScore = 0;
 let winner = null;
-let animationTime = 0;
+let animationTime = 500;
 
 function checkWin() {
   if (leftScore >= 12) {
-    winner = 'Left Player';
-    animationTime = 150; // number of frames for animation
+    winner = 'You win';
   } else if (rightScore >= 12) {
-    winner = 'Right Player';
-    animationTime = 150;
+    winner = 'You lose';
   }
 }
 
@@ -275,6 +273,7 @@ function gameLoop() {
   checkWin();
   if (winner) {
     drawWinAnimation();
+    ballSpeed =0
     if (animationTime <= 0) {
       // Optionally, reset game or show restart button
     }
