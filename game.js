@@ -276,6 +276,10 @@ function gameLoop() {
     drawWinAnimation();
     if (animationTime <= 0) {
       // Optionally, reset game or show restart button
+       winner = null;
+      resetBall();
+      leftScore=0;
+      rightScore=0;
     }
     return; // Stop game updates during animation if desired
   }
