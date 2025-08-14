@@ -16,11 +16,15 @@ h1 {
   letter-spacing: 2px;
 }
 #pongCanvas {
-  background: #111;
+  width: 90vw;         /* 90% of viewport width */
+  max-width: 800px;
+  height: 56vw;        /* keeps aspect ratio ~800x500 */
+  max-height: 500px;
   display: block;
+  margin: 0 auto;
+  background: #111;
   border: 2px solid #fff;
   box-shadow: 0 0 20px #000;
-  margin: 0 auto;
 }
 .game-flex {
   display: flex;
