@@ -11,8 +11,7 @@ let leftPaddleY = canvas.height / 2 - paddleHeight / 2;
 
 // Right paddle (AI)
 let rightPaddleY = canvas.height / 2 - paddleHeight / 2;
-let rightPaddleMaxSpeed = 6;
-let rightPaddleMinSpeed = 2;
+let rightPaddleMaxSpeed = 7;
 
 // Ball
 let ballX = canvas.width / 2;
@@ -122,18 +121,14 @@ function update() {
     resetBall(-1);
   }
 
-  // Improved AI paddle movement
+  // Improved AI paddle movement (smooth and always moving)
+  // Target is ball center minus half paddle height
   let targetY = ballY - paddleHeight / 2;
   let diff = targetY - rightPaddleY;
-  let aiSpeed = Math.abs(diff) > rightPaddleMaxSpeed ? rightPaddleMaxSpeed : rightPaddleMinSpeed;
-  if (Math.abs(diff) < aiSpeed) {
-    rightPaddleY = targetY; // Snap if close
-  } else if (diff > 0) {
-    rightPaddleY += aiSpeed;
-  } else if (diff < 0) {
-    rightPaddleY -= aiSpeed;
-  }
-  // Clamp AI paddle
+  // Compute move step, capped at max speed
+  let move = Math.sign(diff) * Math.min(Math.abs(diff), rightPaddleMaxSpeed);
+  rightPaddleY += move;
+  // Clamp
   if (rightPaddleY < 0) rightPaddleY = 0;
   if (rightPaddleY > canvas.height - paddleHeight) rightPaddleY = canvas.height - paddleHeight;
 }
