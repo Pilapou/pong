@@ -4,7 +4,6 @@ const ctx = canvas.getContext('2d');
 
 // Responsive canvas setup
 function resizeCanvas() {
-  const canvas = document.getElementById('pongCanvas');
   // Use the CSS sizes to set actual drawing size
   const rect = canvas.getBoundingClientRect();
   canvas.width = rect.width;
